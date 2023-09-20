@@ -1,4 +1,4 @@
-                                                #DockJaNetes
+#                                                 DockJaNetes
 This is a funny term coined by me. I drew this term by drawing few letters from the words DOCKer, JAva and kuberNETES.
 
 This is a simple and small microservice java project, which is based on three elements product catalogue, stock manager and shopfront (frontEND) which are deployed as deployments in the cluster.
