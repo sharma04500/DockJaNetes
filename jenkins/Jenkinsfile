@@ -17,6 +17,7 @@ pipeline{
                 sh 'cd /home/ubuntu/DockJaNetes/ && git pull origin main || exit 1'
             }
             }
+        }
         stage('build shopfront image'){
             steps{
                 sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && mvn clean install'
