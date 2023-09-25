@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage('init node-1 to build images'){
+        stage('init build images'){
             steps {
                 script {
             if (!fileExists('/home/ubuntu/.m2')) {
@@ -25,13 +25,13 @@ pipeline{
         }
             }
         }
-        stage('build prodcat image in node-1'){
+        stage('build prodcat image'){
             steps{
                 sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && mvn clean install'
                 sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && docker image build . -t akells05/prodcat:latest'
             }
         }
-        stage('build stockmanager image in node-1'){
+        stage('build stockmanager image'){
             steps{
                 sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && mvn clean install'
                 sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && docker image build . -t akells05/stockmanager:latest'
