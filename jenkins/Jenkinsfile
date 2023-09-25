@@ -3,17 +3,13 @@ pipeline{
     stages{
         stage('init build images'){
             steps {
-                sh 'whoami && mvn --version || sudo apt update && sudo apt install maven -y || exit 1'
-            }
-            steps{
-                script {
-            if (!fileExists('$HOME/DockJaNetes')) {
-                sh "cd $HOME && git clone https://github.com/sharma04500/DockJaNetes.git"
+                sh 'whoami && sudo apt update && sudo apt install maven -y || exit 1'
+                sh 'git clone https://github.com/sharma04500/DockJaNetes.git || exit 0'
             }
                 }
+        stage('pull latest code'){
             steps {
                 sh 'cd $HOME/DockJaNetes/ && git pull origin main || exit 1'
-            }
             }
         }
         stage('build shopfront image'){
