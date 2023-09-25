@@ -76,4 +76,3 @@ pipeline{
     // We can also use PV and PVC {EFS or EBS}, mounted at the Jenkins data directory in order to keep the Jenkins data safe
     // while running jenkins as a k8s pod.
 
-dryrun
