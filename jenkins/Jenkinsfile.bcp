@@ -1,0 +1,27 @@
+pipeline{
+    agent any
+    stages{
+        stage('Checking for Source Code'){
+            steps{
+                script {
+            if (!fileExists('/home/ubuntu/DockJaNetes')) {
+                sh 'cd /home/ubuntu && git clone https://github.com/sharma04500/DockJaNetes.git'
+            }
+                }
+        }
+        stage('GIT pull'){
+            steps{
+                sh 'cd /home/ubuntu/DockJaNetes/ && git pull origin main || exit 1'
+            }
+        }
+        stage('build shopfront image'){
+            steps{
+                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && mvn clean install'
+                sh 'for i in `docker image ls -aq`; do docker image rm -f $i; done'
+                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && docker image build . -t akells05/shopfront:latest'
+            }
+        }
+        
+    }
+}
+}

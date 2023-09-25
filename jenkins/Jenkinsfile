@@ -25,9 +25,6 @@ pipeline{
                 sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && docker image build . -t akells05/shopfront:latest'
             }
         }
-
-            }
-        }
         stage('build prodcat image'){
             steps{
                 sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && mvn clean install'
@@ -69,7 +66,8 @@ pipeline{
                 sh 'cd /home/ubuntu/DockJaNetes/kubernetes/ && kubectl create -f stockmanager-service.yaml'
             }
         }
-        }
+   }
+}
     
     
 
