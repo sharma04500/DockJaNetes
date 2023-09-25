@@ -5,7 +5,7 @@ pipeline{
             steps {
                 script {
             if (!fileExists('/home/ubuntu/.m2')) {
-                sh 'apt update && apt install maven -y || exit 1'
+                sh 'whoami && sudo apt update && sudo apt install maven -y || exit 1'
             }
                 }
                 script {
