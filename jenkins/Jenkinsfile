@@ -1,34 +1,39 @@
 pipeline{
-    agent any
+    agent{
+        label 'ubuntu'
+    }
     stages{
         stage('init build images'){
             steps {
-                sh 'whoami && sudo apt update && sudo apt install maven -y || exit 1'
-                sh 'git clone https://github.com/sharma04500/DockJaNetes.git || exit 0'
+        script {
+            if (!fileExists('/home/ubuntu/DockJaNetes')) {
+                sh "cd /home/ubuntu && git clone https://github.com/sharma04500/DockJaNetes.git"
+            }
+        }
             }
                 }
         stage('pull latest code'){
             steps {
-                sh 'cd $HOME/DockJaNetes/ && git pull origin main || exit 1'
+                sh 'cd /home/ubuntu/DockJaNetes/ && git pull origin main || exit 1'
             }
         }
         stage('build shopfront image'){
             steps{
-                sh 'cd $HOME/DockJaNetes/shopfront/ && mvn clean install'
+                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && mvn clean install'
                 sh 'for i in `docker image ls -aq`; do docker image rm -f $i; done'
-                sh 'cd $HOME/DockJaNetes/shopfront/ && docker image build . -t akells05/shopfront:latest'
+                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && docker image build . -t akells05/shopfront:latest'
             }
         }
         stage('build prodcat image'){
             steps{
-                sh 'cd $HOME/DockJaNetes/productcatalogue/ && mvn clean install'
-                sh 'cd $HOME/DockJaNetes/productcatalogue/ && docker image build . -t akells05/prodcat:latest'
+                sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && mvn clean install'
+                sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && docker image build . -t akells05/prodcat:latest'
             }
         }
         stage('build stockmanager image'){
             steps{
-                sh 'cd $HOME/DockJaNetes/stockmanager/ && mvn clean install'
-                sh 'cd $HOME/DockJaNetes/stockmanager/ && docker image build . -t akells05/stockmanager:latest'
+                sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && mvn clean install'
+                sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && docker image build . -t akells05/stockmanager:latest'
             }
         }
         stage('push all the images to dockerhub'){
@@ -47,17 +52,17 @@ pipeline{
         }
         stage('Deploy Shopfront to K8s'){
             steps{
-                sh 'cd $HOME/DockJaNetes/kubernetes/ && kubectl create -f  shopfront-service.yaml'
+                sh 'cd /home/ubuntu/DockJaNetes/kubernetes/ && kubectl create -f  shopfront-service.yaml'
             }
         }
         stage('Deploy productcatalogue to K8s'){
             steps{
-                sh 'cd $HOME/DockJaNetes/kubernetes/ && kubectl create -f productcatalogue-service.yaml'
+                sh 'cd /home/ubuntu/DockJaNetes/kubernetes/ && kubectl create -f productcatalogue-service.yaml'
             }
         }
         stage('Deploy stockmanager to K8s'){
             steps{
-                sh 'cd $HOME/DockJaNetes/kubernetes/ && kubectl create -f stockmanager-service.yaml'
+                sh 'cd /home/ubuntu/DockJaNetes/kubernetes/ && kubectl create -f stockmanager-service.yaml'
             }
         }
    }
