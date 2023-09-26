@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('init build images'){
             steps {
-                sh 'whoami && sudo apt update && sudo apt install maven -y || exit 1'
+                sh 'whoami && sudo apt update || exit 1'
                 sh 'git clone https://github.com/sharma04500/DockJaNetes.git || exit 0'
             }
                 }
