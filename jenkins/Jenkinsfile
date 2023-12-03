@@ -17,32 +17,6 @@ pipeline{
                 sh 'cd /home/ubuntu/DockJaNetes/ && git pull origin main || exit 1'
             }
         }
-        stage('build shopfront image'){
-            steps{
-                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && mvn clean install'
-                sh 'for i in `docker image ls -aq`; do docker image rm -f $i; done'
-                sh 'cd /home/ubuntu/DockJaNetes/shopfront/ && docker image build . -t akells05/shopfront:latest'
-            }
-        }
-        stage('build prodcat image'){
-            steps{
-                sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && mvn clean install'
-                sh 'cd /home/ubuntu/DockJaNetes/productcatalogue/ && docker image build . -t akells05/prodcat:latest'
-            }
-        }
-        stage('build stockmanager image'){
-            steps{
-                sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && mvn clean install'
-                sh 'cd /home/ubuntu/DockJaNetes/stockmanager/ && docker image build . -t akells05/stockmanager:latest'
-            }
-        }
-        stage('push all the images to dockerhub'){
-            steps{
-                sh 'docker push akells05/shopfront:latest'
-                sh 'docker push akells05/prodcat:latest'
-                sh 'docker push akells05/stockmanager:latest'
-            }
-        }
         stage('Delete existing k8s objects'){
             steps{
                 sh 'kubectl delete svc shopfront && kubectl delete deploy shopfront || exit 0'
