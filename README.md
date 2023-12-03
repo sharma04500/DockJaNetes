@@ -15,4 +15,4 @@ Build docker images from the given Dockerfile and push the images into your dock
 
 Now, expose the frontend application to the external traffic through ingress controller, which creates an Application load Balancer in AWS, according it's default behaviour in EKS.
 
-Instead of using the DNS of the ALB, we can create a new record for our domain in the hosted zone of Route 53.
+Instead of using the DNS of the ALB, we can create a new record for our domain in the hosted zone of Route 53. 
